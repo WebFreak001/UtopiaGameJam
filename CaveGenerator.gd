@@ -1,6 +1,5 @@
 extends CSGPolygon3D
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var outline = [PackedVector3Array(), PackedVector3Array(), PackedVector3Array(), PackedVector3Array()]
@@ -17,7 +16,7 @@ func _ready():
 		outline[1].append(Vector3(v2.x, v2.y, 0.8 + randf() * 0.2))
 		var v3 = v - nrm * (0.3 + 0.3 * randf())
 		outline[2].append(Vector3(v3.x, v3.y, 1.6 + randf() * 0.2))
-		var v4 = v - nrm * 4
+		var v4 = v - nrm * 8
 		outline[3].append(Vector3(v4.x, v4.y, 1.9))
 
 	for i in range(0, len(outline) - 1):
