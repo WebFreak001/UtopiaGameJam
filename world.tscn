@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://bty7k7wx2qb3"]
+
+[ext_resource type="PackedScene" uid="uid://ds4nqhthismy2" path="res://way.glb" id="1_h7co7"]
+
+[sub_resource type="Environment" id="Environment_1n3ab"]
+ssao_enabled = true
+fog_enabled = true
+fog_light_color = Color(0, 0.0470588, 0, 1)
+fog_density = 0.3047
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tdlh5"]
+size = Vector3(100, 2, 100)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="way" parent="." instance=ExtResource("1_h7co7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.57628, 0, 2.49648)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1n3ab")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80955, 0)
+current = true
+
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_tdlh5")
