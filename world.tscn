@@ -1,28 +1,33 @@
-[gd_scene load_steps=4 format=3 uid="uid://bty7k7wx2qb3"]
+[gd_scene load_steps=6 format=3 uid="uid://bty7k7wx2qb3"]
 
 [ext_resource type="PackedScene" uid="uid://ds4nqhthismy2" path="res://way.glb" id="1_h7co7"]
+[ext_resource type="Script" path="res://world.gd" id="1_v7e68"]
+[ext_resource type="Script" path="res://CaveGenerator.gd" id="3_q8unq"]
 
 [sub_resource type="Environment" id="Environment_1n3ab"]
 ssao_enabled = true
 fog_enabled = true
 fog_light_color = Color(0, 0.0470588, 0, 1)
-fog_density = 0.3047
+fog_density = 0.1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tdlh5"]
 size = Vector3(100, 2, 100)
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_v7e68")
 
 [node name="way" parent="." instance=ExtResource("1_h7co7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.57628, 0, 2.49648)
+visible = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1n3ab")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6279, 0, 5.14922)
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80955, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 current = true
 
 [node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
@@ -36,3 +41,9 @@ tracker = &"right_hand"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 shape = SubResource("BoxShape3D_tdlh5")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+use_collision = true
+polygon = PackedVector2Array(-3, -6, -2.68605, -3.73289, -3.61805, 0.09763, -5.29145, 4.35719, -5.96704, 8.28605, -3.27646, 10.474, -2.41903, 6.15724, -1.82769, 4.29454, -1.14766, 3.73277, -0.260655, 4.70847, -0.851991, 6.95555, -1.47289, 10.2079, -0.655489, 15.7239, 1.5956, 21.2605, 5.79381, 22.058, 8.93736, 21.495, 9.87574, 18.2576, 11.0956, 14.598, 12.1748, 9.76533, 7.10753, 9.62457, 7.29521, 13.5657, 6.44454, 17.8603, 4.37086, 15.7239, 2.78472, 9.61655, 1.90054, 4.81868, 1.16356, 3.31353, -0.806027, 2.03802, -1.75941, 0.745219, -0.431041, -4.28053, -0.64071, -6.11785)
+script = ExtResource("3_q8unq")
