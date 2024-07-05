@@ -1,0 +1,16 @@
+[gd_scene load_steps=7 format=3 uid="uid://bab1r8j5omgms"]
+
+[ext_resource type="PackedScene" uid="uid://br54qrbb5yke3" path="res://audio/audio_region.tscn" id="1_aytiu"]
+[ext_resource type="AudioStream" uid="uid://hx11s2itnv47" path="res://audio/water-dripping/water-dripping-0/water-dripping-0-002.wav" id="2_wdal0"]
+[ext_resource type="AudioStream" uid="uid://cyy5rflydj65n" path="res://audio/water-dripping/water-dripping-0/water-dripping-0-003.wav" id="3_w7ifx"]
+[ext_resource type="AudioStream" uid="uid://cm34u7x5m0w1e" path="res://audio/water-dripping/water-dripping-0/water-dripping-0-004.wav" id="4_5lfvo"]
+[ext_resource type="AudioStream" uid="uid://box8368iad4mh" path="res://audio/water-dripping/water-dripping-0/water-dripping-0-005.wav" id="5_ahyly"]
+[ext_resource type="AudioStream" uid="uid://cfchnl7sarxho" path="res://audio/water-dripping/water-dripping-0/water-dripping-0-006.wav" id="6_s2bf3"]
+
+[node name="AudioDrippingWater0" type="Node3D"]
+
+[node name="AudioRegion" parent="." instance=ExtResource("1_aytiu")]
+streams = Array[AudioStream]([ExtResource("2_wdal0"), ExtResource("3_w7ifx"), ExtResource("4_5lfvo"), ExtResource("5_ahyly"), ExtResource("6_s2bf3")])
+sleep_min = 1.0
+sleep_max = 3.0
+bus = &"WaterDrops"

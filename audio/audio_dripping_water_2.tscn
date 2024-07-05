@@ -1,0 +1,19 @@
+[gd_scene load_steps=10 format=3 uid="uid://bkvv22mvsac0s"]
+
+[ext_resource type="PackedScene" uid="uid://br54qrbb5yke3" path="res://audio/audio_region.tscn" id="1_2h7ll"]
+[ext_resource type="AudioStream" uid="uid://ddf3s4ykw7brv" path="res://audio/water-dripping/water-dripping-2/water-dripping-2-001.wav" id="2_1b1sq"]
+[ext_resource type="AudioStream" uid="uid://bfa6g8x2m3311" path="res://audio/water-dripping/water-dripping-2/water-dripping-2-002.wav" id="3_hkmt7"]
+[ext_resource type="AudioStream" uid="uid://cnarjkn73agta" path="res://audio/water-dripping/water-dripping-2/water-dripping-2-003.wav" id="4_naikw"]
+[ext_resource type="AudioStream" uid="uid://cerr5ndox1ec7" path="res://audio/water-dripping/water-dripping-2/water-dripping-2-004.wav" id="5_2wlto"]
+[ext_resource type="AudioStream" uid="uid://cibmcah2qkqb1" path="res://audio/water-dripping/water-dripping-2/water-dripping-2-005.wav" id="6_j5rdm"]
+[ext_resource type="AudioStream" uid="uid://ci32r57s47nxu" path="res://audio/water-dripping/water-dripping-2/water-dripping-2-006.wav" id="7_sk4d3"]
+[ext_resource type="AudioStream" uid="uid://dwxvimgg8ubx7" path="res://audio/water-dripping/water-dripping-2/water-dripping-2-007.wav" id="8_f8qn0"]
+[ext_resource type="AudioStream" uid="uid://bkt7a6256nf84" path="res://audio/water-dripping/water-dripping-2/water-dripping-2-008.wav" id="9_kln0y"]
+
+[node name="AudioDrippingWater0" type="Node3D"]
+
+[node name="AudioRegion" parent="." instance=ExtResource("1_2h7ll")]
+streams = Array[AudioStream]([ExtResource("2_1b1sq"), ExtResource("3_hkmt7"), ExtResource("4_naikw"), ExtResource("5_2wlto"), ExtResource("6_j5rdm"), ExtResource("7_sk4d3"), ExtResource("8_f8qn0"), ExtResource("9_kln0y")])
+sleep_min = 1.0
+sleep_max = 3.0
+bus = &"WaterDrops"

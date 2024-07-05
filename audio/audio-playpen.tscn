@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdist0875588t"]
+
+[ext_resource type="PackedScene" uid="uid://bab1r8j5omgms" path="res://audio/audio_dripping_water_0.tscn" id="6_mkny5"]
+[ext_resource type="PackedScene" uid="uid://cem3tsjf6vavw" path="res://audio/audio_dripping_water_1.tscn" id="7_h1b65"]
+[ext_resource type="PackedScene" uid="uid://bkvv22mvsac0s" path="res://audio/audio_dripping_water_2.tscn" id="8_oivp3"]
+
+[node name="Root" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="AudioDrippingWater0" parent="." instance=ExtResource("6_mkny5")]
+
+[node name="AudioDrippingWater1" parent="." instance=ExtResource("7_h1b65")]
+
+[node name="AudioDrippingWater2" parent="." instance=ExtResource("8_oivp3")]

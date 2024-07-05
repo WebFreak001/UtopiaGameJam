@@ -1,9 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://bty7k7wx2qb3"]
+[gd_scene load_steps=15 format=3 uid="uid://bty7k7wx2qb3"]
 
 [ext_resource type="PackedScene" uid="uid://ds4nqhthismy2" path="res://way.glb" id="1_h7co7"]
 [ext_resource type="Script" path="res://world.gd" id="1_v7e68"]
 [ext_resource type="Script" path="res://Movement.gd" id="3_bkolr"]
 [ext_resource type="Script" path="res://CaveGenerator.gd" id="3_q8unq"]
+[ext_resource type="PackedScene" uid="uid://bab1r8j5omgms" path="res://audio/audio_dripping_water_0.tscn" id="5_3km5x"]
+[ext_resource type="PackedScene" uid="uid://cem3tsjf6vavw" path="res://audio/audio_dripping_water_1.tscn" id="6_1cwix"]
+[ext_resource type="PackedScene" uid="uid://bkvv22mvsac0s" path="res://audio/audio_dripping_water_2.tscn" id="7_7jphs"]
 
 [sub_resource type="Environment" id="Environment_1n3ab"]
 ssao_enabled = true
@@ -97,3 +100,29 @@ curve = SubResource("Curve3D_le4px")
 [node name="Roof4" type="Path3D" parent="CSGPolygon3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62169, -4.9572, -2.16686e-07)
 curve = SubResource("Curve3D_clpd4")
+
+[node name="Audio" type="Node3D" parent="."]
+
+[node name="AudioDrippingWater0" parent="Audio" instance=ExtResource("5_3km5x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.10514, 2.69344, 15.4474)
+
+[node name="AudioDrippingWater1" parent="Audio" instance=ExtResource("5_3km5x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9448, 2.69345, -23.8813)
+
+[node name="AudioDrippingWater2" parent="Audio" instance=ExtResource("5_3km5x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.1868, 2.69345, -29.0242)
+
+[node name="AudioDrippingWater3" parent="Audio" instance=ExtResource("6_1cwix")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6594, 0, -6.98907)
+
+[node name="AudioDrippingWater4" parent="Audio" instance=ExtResource("6_1cwix")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.1431, 0, 0.791215)
+
+[node name="AudioDrippingWater5" parent="Audio" instance=ExtResource("7_7jphs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.4509, 0, -10.0221)
+
+[node name="AudioDrippingWater6" parent="Audio" instance=ExtResource("7_7jphs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.5497, 0, -8.17589)
+
+[node name="AudioDrippingWater7" parent="Audio" instance=ExtResource("7_7jphs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.2529, 0, -9.49458)
