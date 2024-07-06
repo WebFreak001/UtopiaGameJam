@@ -122,9 +122,6 @@ curve = SubResource("Curve3D_le4px")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62169, -4.9572, -2.16686e-07)
 curve = SubResource("Curve3D_clpd4")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="CSGPolygon3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.84516, -2.16885e-08, 0.496176)
-
 [node name="Audio" type="Node3D" parent="."]
 
 [node name="AudioDrippingWater0" parent="Audio" instance=ExtResource("5_3km5x")]
