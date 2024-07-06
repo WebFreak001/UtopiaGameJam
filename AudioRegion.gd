@@ -5,6 +5,7 @@ extends Node3D
 @export var sleep_max : float = 5
 @export var bus : StringName = &"Master"
 @export var max_distance : float = 20
+@export var panning_strength : float = 1
 
 var sleep_time : float = 0
 
@@ -18,6 +19,7 @@ func play_next():
 	$AudioSource.play()
 	$AudioSource.bus = bus
 	$AudioSource.max_distance = max_distance
+	$AudioSource.panning_strength = panning_strength
 
 func _process(delta):
 	var source = $AudioSource

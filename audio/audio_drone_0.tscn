@@ -1,0 +1,18 @@
+[gd_scene load_steps=7 format=3 uid="uid://bukoqgllikkyu"]
+
+[ext_resource type="PackedScene" uid="uid://br54qrbb5yke3" path="res://audio/audio_region.tscn" id="1_kik2t"]
+[ext_resource type="AudioStream" uid="uid://ca5ynbxc1l04x" path="res://audio/drone/drone-0/drone-0-001.wav" id="2_gus8s"]
+[ext_resource type="AudioStream" uid="uid://dufsbgdllggf1" path="res://audio/drone/drone-0/drone-0-002.wav" id="3_w0nly"]
+[ext_resource type="AudioStream" uid="uid://c32abgwv5uljn" path="res://audio/drone/drone-0/drone-0-003.wav" id="4_4fntd"]
+[ext_resource type="AudioStream" uid="uid://cnf3kvapuaulb" path="res://audio/drone/drone-0/drone-0-004.wav" id="5_6winy"]
+[ext_resource type="AudioStream" uid="uid://cy7efe3b4k1w4" path="res://audio/drone/drone-0/drone-0-005.wav" id="6_p7dps"]
+
+[node name="AudioDrone0" type="Node3D"]
+
+[node name="AudioRegion" parent="." instance=ExtResource("1_kik2t")]
+streams = Array[AudioStream]([ExtResource("2_gus8s"), ExtResource("3_w0nly"), ExtResource("4_4fntd"), ExtResource("5_6winy"), ExtResource("6_p7dps")])
+sleep_min = 1.0
+sleep_max = 3.0
+bus = &"Drones"
+max_distance = 40.0
+panning_strength = 0.0
