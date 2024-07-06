@@ -4,6 +4,8 @@ extends CSGPolygon3D
 func _ready():
 	var outline = [PackedVector3Array(), PackedVector3Array()]
 	var normals2d = PackedVector2Array()
+	
+	seed(420691337)
 
 	for i in range(0, len(self.polygon)):
 		var v = self.polygon[i]
@@ -23,6 +25,8 @@ func _ready():
 
 	var walls = MeshInstance3D.new()
 	walls.mesh = ArrayMesh.new()
+
+	var vertices_unindexed = PackedVector3Array()
 	var vertices = PackedVector3Array()
 	var normals = PackedVector3Array()
 	var uvs = PackedVector2Array()
@@ -47,14 +51,8 @@ func _ready():
 			).normalized()
 
 			var idx = len(vertices)
-			vertices.append(a)
-			vertices.append(b)
-			vertices.append(c)
-			vertices.append(d)
-			normals.append(nrm)
-			normals.append(nrm)
-			normals.append(nrm)
-			normals.append(nrm)
+			vertices.append_array([a, b, c, d])
+			normals.append_array([nrm, nrm, nrm, nrm])
 			uvs.append(Vector2(j / float(num_verts), i / float(num_outlines)))
 			uvs.append(Vector2(j / float(num_verts), (i + 1) / float(num_outlines)))
 			uvs.append(Vector2((j + 1) / float(num_verts), i / float(num_outlines)))
@@ -63,6 +61,10 @@ func _ready():
 			indices.append_array([
 				idx + 2, idx + 1, idx,
 				idx + 2, idx + 3, idx + 1
+			])
+			vertices_unindexed.append_array([
+				c, b, a,
+				c, d, b
 			])
 
 	var top = outline[len(outline) - 1]
@@ -85,14 +87,8 @@ func _ready():
 		).normalized()
 
 		var idx = len(vertices)
-		vertices.append(a)
-		vertices.append(b)
-		vertices.append(c)
-		vertices.append(d)
-		normals.append(nrm)
-		normals.append(nrm)
-		normals.append(nrm)
-		normals.append(nrm)
+		vertices.append_array([a, b, c, d])
+		normals.append_array([nrm, nrm, nrm, nrm])
 		uvs.append(Vector2(i / float(num_verts), 0.5))
 		uvs.append(Vector2(i / float(num_verts), 1.0))
 		uvs.append(Vector2((i + 1) / float(num_verts), 0.5))
@@ -101,6 +97,10 @@ func _ready():
 		indices.append_array([
 			idx + 2, idx + 1, idx,
 			idx + 2, idx + 3, idx + 1
+		])
+		vertices_unindexed.append_array([
+			c, b, a,
+			c, d, b
 		])
 	
 	var arrays = []
@@ -113,6 +113,14 @@ func _ready():
 	walls.mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	walls.mesh.surface_set_material(0, self.material_override)
 	add_child(walls)
+
+	var collider = StaticBody3D.new()
+	var collision_mesh = CollisionShape3D.new()
+	var collision_shape = ConcavePolygonShape3D.new()
+	collision_shape.set_faces(vertices_unindexed)
+	collision_mesh.shape = collision_shape
+	collider.add_child(collision_mesh)
+	add_child(collider)
 
 func get_roof_vert(v):
 	var closest = v

@@ -1,10 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://bty7k7wx2qb3"]
+[gd_scene load_steps=29 format=3 uid="uid://bty7k7wx2qb3"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_v7e68"]
 [ext_resource type="Script" path="res://Movement.gd" id="3_bkolr"]
+[ext_resource type="Script" path="res://Grabbable.gd" id="3_i20xl"]
+[ext_resource type="Script" path="res://GrabArea.gd" id="3_j23e1"]
 [ext_resource type="Shader" path="res://CaveShader.gdshader" id="3_mr4qw"]
 [ext_resource type="Script" path="res://CaveGenerator.gd" id="3_q8unq"]
 [ext_resource type="PackedScene" uid="uid://bab1r8j5omgms" path="res://audio/audio_dripping_water_0.tscn" id="5_3km5x"]
+[ext_resource type="Script" path="res://GrabbableArea.gd" id="5_4hq5b"]
 [ext_resource type="PackedScene" uid="uid://cem3tsjf6vavw" path="res://audio/audio_dripping_water_1.tscn" id="6_1cwix"]
 [ext_resource type="PackedScene" uid="uid://bkvv22mvsac0s" path="res://audio/audio_dripping_water_2.tscn" id="7_7jphs"]
 [ext_resource type="PackedScene" uid="uid://bukoqgllikkyu" path="res://audio/audio_drone_0.tscn" id="8_b4bqj"]
@@ -15,8 +18,48 @@ fog_enabled = true
 fog_light_color = Color(0, 0.0470588, 0, 1)
 fog_density = 0.1
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_w45jr"]
+radius = 0.1
+
+[sub_resource type="Gradient" id="Gradient_k3lrw"]
+offsets = PackedFloat32Array(0, 0.182927, 0.349593, 0.512195, 0.768293, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.97962, 0.651157, 0, 1, 0.332881, 0.332881, 0.332881, 1, 0.0330676, 0.0330676, 0.0330676, 1, 0, 0, 0, 1, 0.34902, 0.184314, 0.101961, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jnrlf"]
+gradient = SubResource("Gradient_k3lrw")
+width = 1
+height = 128
+fill_to = Vector2(0, 0.119658)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6qsj4"]
+albedo_texture = SubResource("GradientTexture2D_jnrlf")
+texture_filter = 2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dpxio"]
+material = SubResource("StandardMaterial3D_6qsj4")
+top_radius = 0.04
+bottom_radius = 0.02
+height = 0.2
+radial_segments = 5
+cap_top = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3wcpv"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mo0ly"]
+material = SubResource("StandardMaterial3D_3wcpv")
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.001
+radial_segments = 5
+rings = 1
+cap_bottom = false
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_jqouj"]
+height = 0.2
+radius = 0.0354833
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_tdlh5"]
-size = Vector3(100, 2, 100)
+size = Vector3(200, 2, 200)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_5rb8q"]
 
@@ -90,9 +133,43 @@ tracker = &"left_hand"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.449429, 0.669253, 0)
 tracker = &"right_hand"
 
-[node name="OmniLight3D" type="OmniLight3D" parent="XROrigin3D/RightHand"]
-light_energy = 0.35
+[node name="GrabArea" type="Area3D" parent="XROrigin3D/RightHand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+script = ExtResource("3_j23e1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/GrabArea"]
+shape = SubResource("SphereShape3D_w45jr")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="XROrigin3D/RightHand/GrabArea"]
+radius = 0.1
+
+[node name="Torch" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.511353, 0.859371, 0, -0.859371, 0.511353, -1.4672, 0.800078, 4.19168)
+script = ExtResource("3_i20xl")
+
+[node name="TorchBase" type="MeshInstance3D" parent="Torch"]
+mesh = SubResource("CylinderMesh_dpxio")
+
+[node name="TorchBase2" type="MeshInstance3D" parent="Torch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.099, 0)
+mesh = SubResource("CylinderMesh_mo0ly")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Torch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0849234, 0)
+light_color = Color(1, 0.701961, 0.360784, 1)
+light_energy = 0.5
 omni_range = 6.9101
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Torch"]
+shape = SubResource("CylinderShape3D_jqouj")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Torch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, -0.125)
+size = Vector3(0.01, 0.01, 0.1)
+
+[node name="GrabbableArea" type="Area3D" parent="Torch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, 0)
+script = ExtResource("5_4hq5b")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 

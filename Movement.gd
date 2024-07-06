@@ -20,10 +20,10 @@ func _process(delta):
 	var applied: Vector3 = ($XRCamera3D.global_transform.basis * Vector3(input.x, 0, -input.y)).normalized()
 	
 	if abs(applied.length_squared()) > 0.001 * 0.001:
-		self.global_translate(Vector3(applied.x, 0, applied.z) * 0.03)
+		self.global_translate(Vector3(applied.x, 0, applied.z) * delta)
 
 	if abs(rot) > 0.001:
-		self.rotate_y(rot * -0.03)
+		self.rotate_y(rot * -delta)
 
 func _input(event):
 	if event is InputEventMouseMotion and not $LeftHand.get_is_active() and not $RightHand.get_is_active():
