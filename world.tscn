@@ -1,8 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bty7k7wx2qb3"]
+[gd_scene load_steps=17 format=3 uid="uid://bty7k7wx2qb3"]
 
-[ext_resource type="PackedScene" uid="uid://ds4nqhthismy2" path="res://way.glb" id="1_h7co7"]
 [ext_resource type="Script" path="res://world.gd" id="1_v7e68"]
 [ext_resource type="Script" path="res://Movement.gd" id="3_bkolr"]
+[ext_resource type="Shader" path="res://CaveShader.gdshader" id="3_mr4qw"]
 [ext_resource type="Script" path="res://CaveGenerator.gd" id="3_q8unq"]
 [ext_resource type="PackedScene" uid="uid://bab1r8j5omgms" path="res://audio/audio_dripping_water_0.tscn" id="5_3km5x"]
 [ext_resource type="PackedScene" uid="uid://cem3tsjf6vavw" path="res://audio/audio_dripping_water_1.tscn" id="6_1cwix"]
@@ -18,8 +18,26 @@ fog_density = 0.1
 [sub_resource type="BoxShape3D" id="BoxShape3D_tdlh5"]
 size = Vector3(100, 2, 100)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0d52"]
-albedo_color = Color(0.1518, 0.22, 0.1518, 1)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5rb8q"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_stivq"]
+seamless = true
+noise = SubResource("FastNoiseLite_5rb8q")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_waokn"]
+render_priority = 0
+shader = ExtResource("3_mr4qw")
+shader_parameter/albedo = Color(0.1518, 0.22, 0.1518, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/texture_albedo = SubResource("NoiseTexture2D_stivq")
 
 [sub_resource type="Curve3D" id="Curve3D_dp5on"]
 _data = {
@@ -52,10 +70,6 @@ point_count = 9
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_v7e68")
 
-[node name="way" parent="." instance=ExtResource("1_h7co7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.57628, 0, 2.49648)
-visible = false
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1n3ab")
 
@@ -69,10 +83,16 @@ current = true
 far = 100.0
 
 [node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.463745, 0.748851, 0)
 tracker = &"left_hand"
 
 [node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.449429, 0.669253, 0)
 tracker = &"right_hand"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="XROrigin3D/RightHand"]
+light_energy = 0.35
+omni_range = 6.9101
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
@@ -82,7 +102,7 @@ shape = SubResource("BoxShape3D_tdlh5")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_f0d52")
+material_override = SubResource("ShaderMaterial_waokn")
 polygon = PackedVector2Array(-3, -6, -2.68605, -3.73289, -3.61805, 0.09763, -5.29145, 4.35719, -5.96704, 8.28605, -10.1896, 14.9578, -13.156, 17.9327, -16.5806, 19.0616, -20.6593, 18.5142, -23.8196, 18.9527, -26.8225, 20.9752, -32.5887, 20.8988, -37.433, 19.8466, -41.143, 20.2912, -45.1011, 20.7171, -47.229, 19.9893, -48.5537, 18.3545, -48.7366, 16.3437, -47.6411, 14.1937, -43.8652, 12.7988, -39.7451, 13.0369, -35.0808, 14.1606, -29.9285, 13.2329, -24.8088, 10.7757, -20.3038, 8.29516, -15.1296, 5.62233, -9.80419, 3.56089, -9.20294, -2.19397, -12.5528, -4.25541, -15.9026, 0.382834, -21.855, 3.98084, -24.8857, 5.51335, -29.0779, 8.09686, -34.3404, 9.21492, -39.9713, 9.31434, -46.3052, 9.94672, -49.9736, 11.0898, -53.2305, 16.0059, -53.7163, 20.1409, -51.6058, 23.6278, -47.9788, 24.8158, -44.2535, 24.5879, -40.8613, 24.9321, -37.4173, 27.2023, -33.6141, 32.3051, -26.9592, 33.8609, -22.7453, 32.4696, -19.4458, 28.2817, -14.4787, 25.0946, -10.4735, 20.3717, -6.49389, 14.2412, -3.27646, 10.474, -2.41903, 6.15724, -1.82769, 4.29454, -1.14766, 3.73277, -0.260655, 4.70847, -0.851991, 6.95555, -1.47289, 10.2079, 0.514241, 15.9648, 0.282318, 18.1848, -2.22351, 20.299, -6.44275, 20.8978, -9.36617, 26.8981, -9.46121, 30.8702, -6.8523, 32.1453, -3.70601, 28.4084, -1.14848, 24.708, 0.59602, 22.7113, 2.94904, 21.9412, 5.79381, 22.058, 8.93736, 21.495, 9.87574, 18.2576, 11.0956, 14.598, 12.1748, 9.76533, 10.1979, 5.43029, 7.79506, 2.81374, 6.44533, -0.492233, 6.25338, -2.77382, 6.33705, -4.81137, 5.32589, -8.55307, 9.54478, -9.44528, 13.4146, -8.85529, 17.0886, -9.00484, 21.2108, -6.5188, 24.518, -4.31922, 26.5973, -1.38649, 30.077, -4.33354, 27.3645, -8.16196, 22.4568, -10.3685, 17.46, -11.5074, 13.7357, -12.1813, 9.93842, -12.212, 6.09237, -12.4275, 6.93751, -15.5011, 6.07377, -18.5665, 4.46703, -22.398, 1.56259, -24.4363, -3.17255, -25.0856, -8.48013, -24.6483, -13.3008, -22.363, -16.4505, -18.2402, -19.0737, -14.3972, -16.2576, -15.058, -13.6792, -19.0108, -12.5167, -20.284, -11.0783, -20.109, -10.4754, -18.2299, -9.69401, -15.2715, -8.58127, -13.0468, -8.26021, -10.2468, -5.64492, -9.27869, -5.96695, -13.3195, -7.48091, -16.5719, -8.65293, -19.769, -9.27966, -21.421, -8.78666, -22.578, -6.08383, -22.9171, -2.04259, -22.5633, 0.512089, -21.3297, 2.09497, -19.112, 3.40055, -16.1865, 4.02733, -13.0149, 3.02019, -10.4364, -0.333662, -11.9306, -2.25462, -9.48942, 0.205965, -8.30272, 2.98617, -6.07529, 3.70727, -1.7842, 4.68348, 1.38789, 5.92069, 3.71045, 6.73291, 5.90296, 7.10753, 9.62457, 7.29521, 13.5657, 6.44454, 17.8603, 4.37086, 15.7239, 2.78472, 9.61655, 1.90054, 4.81868, 1.16356, 3.31353, -0.806027, 2.03802, -1.75941, 0.745219, -0.431041, -4.28053, -0.64071, -6.11785)
 script = ExtResource("3_q8unq")
 
@@ -101,6 +121,9 @@ curve = SubResource("Curve3D_le4px")
 [node name="Roof4" type="Path3D" parent="CSGPolygon3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62169, -4.9572, -2.16686e-07)
 curve = SubResource("Curve3D_clpd4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGPolygon3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.84516, -2.16885e-08, 0.496176)
 
 [node name="Audio" type="Node3D" parent="."]
 
